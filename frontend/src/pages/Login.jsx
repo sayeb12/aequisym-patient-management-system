@@ -1,12 +1,18 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import api from "../api/axios";
 import { saveTokens } from "../utils/auth";
 
 
 function Login(){
 
+    const navigate = useNavigate();
+
+
     const [mobile,setMobile] = useState("");
     const [password,setPassword] = useState("");
+
 
     const handleLogin = async(e)=>{
 
@@ -18,10 +24,13 @@ function Login(){
             const response = await api.post(
                 "login/",
                 {
-                    mobile:mobile,
-                    password:password
+                    mobile: mobile,
+                    password: password
                 }
             );
+
+
+            console.log(response.data);
 
 
             saveTokens(
@@ -30,19 +39,27 @@ function Login(){
             );
 
 
-            alert("Login Successful");
+            alert(
+                "Login Successful"
+            );
+
+
+            navigate("/dashboard");
 
 
         }
+
         catch(error){
 
-            console.log(error);
+            console.log(error.response);
+
 
             alert(
-                "Invalid login credentials"
+                "Invalid mobile or password"
             );
 
         }
+
 
     };
 
@@ -50,6 +67,7 @@ function Login(){
     return(
 
         <div>
+
 
             <h1>
                 Patient Login
@@ -106,6 +124,7 @@ function Login(){
 
 
         </div>
+
 
     );
 
