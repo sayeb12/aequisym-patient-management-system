@@ -1,3 +1,33 @@
-from django.shortcuts import render
+from rest_framework import generics
 
-# Create your views here.
+from .models import Patient, PatientVisit
+from .serializers import (
+    PatientSerializer,
+    PatientVisitSerializer
+)
+
+
+
+class PatientListCreateView(generics.ListCreateAPIView):
+
+    queryset = Patient.objects.all()
+
+    serializer_class = PatientSerializer
+
+
+
+class PatientRetrieveUpdateDestroyView(
+    generics.RetrieveUpdateDestroyAPIView
+):
+
+    queryset = Patient.objects.all()
+
+    serializer_class = PatientSerializer
+
+
+
+class PatientVisitCreateView(generics.CreateAPIView):
+
+    queryset = PatientVisit.objects.all()
+
+    serializer_class = PatientVisitSerializer
