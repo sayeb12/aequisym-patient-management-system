@@ -43,7 +43,6 @@ function UpdatePatient() {
 
         try {
 
-
             await api.put(
                 `/patients/${patient.id}/`,
                 {
@@ -79,73 +78,209 @@ function UpdatePatient() {
         <div>
 
 
-            <h1>Update Patient</h1>
-
-
-            <input
-                name="first_name"
-                value={formData.first_name}
-                onChange={handleChange}
-            />
-
-
-            <input
-                name="last_name"
-                value={formData.last_name}
-                onChange={handleChange}
-            />
-
-
-            <input
-                name="mobile"
-                value={formData.mobile}
-                onChange={handleChange}
-            />
-
-
-            <input
-                name="age"
-                value={formData.age}
-                onChange={handleChange}
-            />
-
-
-            <select
-                name="gender"
-                value={formData.gender}
-                onChange={handleChange}
-            >
-
-                <option value="MALE">
-                    Male
-                </option>
-
-                <option value="FEMALE">
-                    Female
-                </option>
-
-                <option value="OTHER">
-                    Other
-                </option>
-
-
-            </select>
+            <h1>
+                Update Patient
+            </h1>
 
 
 
-            <textarea
-                name="address"
-                value={formData.address}
-                onChange={handleChange}
-            />
+            <h2>
+                Personal Information
+            </h2>
 
 
 
-            <input
-                name="blood_group"
-                value={formData.blood_group}
-                onChange={handleChange}
-            />
+            <div>
+
+
+                <label>
+                    First Name:
+                </label>
+
+                <br />
+
+                <input
+                    name="first_name"
+                    value={formData.first_name}
+                    onChange={handleChange}
+                />
+
+
+            </div>
+
+
+            <br />
+
+
+
+            <div>
+
+                <label>
+                    Last Name:
+                </label>
+
+                <br />
+
+                <input
+                    name="last_name"
+                    value={formData.last_name}
+                    onChange={handleChange}
+                />
+
+            </div>
+
+
+            <br />
+
+
+
+            <div>
+
+                <label>
+                    Mobile Number:
+                </label>
+
+                <br />
+
+
+                <input
+                    name="mobile"
+                    value={formData.mobile}
+                    onChange={handleChange}
+                />
+
+            </div>
+
+
+            <br />
+
+
+
+            <div>
+
+                <label>
+                    Age:
+                </label>
+
+                <br />
+
+
+                <input
+                    name="age"
+                    value={formData.age}
+                    onChange={handleChange}
+                />
+
+            </div>
+
+
+
+            <br />
+            <hr />
+
+
+
+            <h2>
+                Additional Information
+            </h2>
+
+
+
+            <div>
+
+                <label>
+                    Gender:
+                </label>
+
+                <br />
+
+
+                <select
+                    name="gender"
+                    value={formData.gender}
+                    onChange={handleChange}
+                >
+
+                    <option value="MALE">
+                        Male
+                    </option>
+
+
+                    <option value="FEMALE">
+                        Female
+                    </option>
+
+
+                    <option value="OTHER">
+                        Other
+                    </option>
+
+
+                </select>
+
+
+            </div>
+
+
+
+            <br />
+
+
+
+            <div>
+
+                <label>
+                    Blood Group:
+                </label>
+
+                <br />
+
+
+                <input
+                    name="blood_group"
+                    value={formData.blood_group}
+                    onChange={handleChange}
+                />
+
+
+            </div>
+
+
+
+            <br />
+
+
+
+            <div>
+
+                <label>
+                    Address:
+                </label>
+
+                <br />
+
+
+                <textarea
+
+                    name="address"
+
+                    value={formData.address}
+
+                    onChange={handleChange}
+
+                    rows="4"
+
+                    cols="40"
+
+                />
+
+
+            </div>
+
+
+
+            <br />
+            <hr />
 
 
 
@@ -158,11 +293,11 @@ function UpdatePatient() {
             </button>
 
 
+
         </div>
 
 
     );
-
 
 }
 
