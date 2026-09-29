@@ -1,8 +1,12 @@
+import {useNavigate} from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import api from "../api/axios";
 
 
 function Patients() {
+
+    const navigate = useNavigate();
+
 
     const [patients, setPatients] = useState([]);
 
@@ -14,7 +18,7 @@ function Patients() {
 
             setPatients(response.data);
 
-        } catch(error) {
+        } catch (error) {
 
             console.log(error);
 
@@ -31,9 +35,9 @@ function Patients() {
 
 
 
-    const deletePatient = async(id)=>{
+    const deletePatient = async (id) => {
 
-        try{
+        try {
 
             await api.delete(`/patients/${id}/`);
 
@@ -42,7 +46,7 @@ function Patients() {
             loadPatients();
 
         }
-        catch(error){
+        catch (error) {
 
             console.log(error);
 
@@ -52,7 +56,7 @@ function Patients() {
 
 
 
-    const updatePatient = async(patient)=>{
+    const updatePatient = async (patient) => {
 
 
         const newAddress = prompt(
@@ -61,18 +65,18 @@ function Patients() {
         );
 
 
-        if(newAddress===null)
+        if (newAddress === null)
             return;
 
 
 
-        try{
+        try {
 
             await api.put(
                 `/patients/${patient.id}/`,
                 {
                     ...patient,
-                    address:newAddress
+                    address: newAddress
                 }
             );
 
@@ -83,7 +87,7 @@ function Patients() {
 
 
         }
-        catch(error){
+        catch (error) {
 
             console.log(error);
 
@@ -121,64 +125,81 @@ function Patients() {
                 <tbody>
 
 
-                {
-                    patients.map((patient)=>(
+                    {
+                        patients.map((patient) => (
 
 
-                        <tr key={patient.id}>
+                            <tr key={patient.id}>
 
 
-                            <td>
-                                {patient.first_name} {patient.last_name}
-                            </td>
+                                <td>
+                                    {patient.first_name} {patient.last_name}
+                                </td>
 
 
-                            <td>
-                                {patient.mobile}
-                            </td>
+                                <td>
+                                    {patient.mobile}
+                                </td>
 
 
-                            <td>
-                                {patient.age}
-                            </td>
+                                <td>
+                                    {patient.age}
+                                </td>
 
 
-                            <td>
-                                {patient.gender}
-                            </td>
+                                <td>
+                                    {patient.gender}
+                                </td>
 
 
-                            <td>
-                                {patient.blood_group}
-                            </td>
+                                <td>
+                                    {patient.blood_group}
+                                </td>
 
 
 
-                            <td>
+                                <td>
 
 
-                                <button
-                                onClick={()=>updatePatient(patient)}
-                                >
-                                    Update
-                                </button>
+                                    <button
+                                        onClick={() => updatePatient(patient)}
+                                    >
+                                        Update
+                                    </button>
 
 
-                                <button
-                                onClick={()=>deletePatient(patient.id)}
-                                >
-                                    Delete
-                                </button>
+                                    <button
+                                        onClick={() => deletePatient(patient.id)}
+                                    >
+                                        Delete
+                                    </button>
+
+                                    <button
+                                        onClick={() => {
+
+                                            navigate(
+                                                "/add-visit",
+                                                {
+                                                    state: {
+                                                        patient: patient
+                                                    }
+                                                }
+                                            )
+
+                                        }}
+                                    >
+                                        Add Visit
+                                    </button>
 
 
-                            </td>
+                                </td>
 
 
-                        </tr>
+                            </tr>
 
 
-                    ))
-                }
+                        ))
+                    }
 
 
                 </tbody>

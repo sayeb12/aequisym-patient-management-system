@@ -10,6 +10,7 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Patients from "./pages/Patients";
 import AddPatient from "./pages/AddPatient";
+import AddVisit from "./pages/AddVisit";
 
 function App(){
 
@@ -48,6 +49,11 @@ function App(){
                 <Route
                     path="/add-patient"
                     element={<AddPatient/>}
+                />
+
+                <Route 
+                    path="/add-visit"
+                    element={<AddVisit/>}
                 />
 
 
