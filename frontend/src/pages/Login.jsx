@@ -2,133 +2,89 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import api from "../api/axios";
-import { saveTokens } from "../utils/auth";
+import { getAccessToken, logout, saveAuth } from "../utils/auth";
 
 
-function Login(){
-
+function Login() {
     const navigate = useNavigate();
+    const [mobile, setMobile] = useState("");
+    const [password, setPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
 
-    const [mobile,setMobile] = useState("");
-    const [password,setPassword] = useState("");
+    const handleLogin = async (event) => {
+        event.preventDefault();
+        setErrorMessage("");
+        setIsSubmitting(true);
 
-
-    const handleLogin = async(e)=>{
-
-        e.preventDefault();
-
-
-        try{
-
+        try {
             const response = await api.post(
                 "login/",
-                {
-                    mobile: mobile,
-                    password: password
-                }
+                { mobile, password },
+                { skipAuth: true }
             );
 
+            saveAuth(response.data);
 
-            console.log(response.data);
+            const savedToken = getAccessToken();
+            console.log("Saved token:", savedToken);
 
+            if (!savedToken) {
+                throw new Error("The access token could not be saved.");
+            }
 
-            saveTokens(
-                response.data.access,
-                response.data.refresh
-            );
+            navigate("/dashboard", { replace: true });
+        } catch (error) {
+            console.error("Login failed:", error.response?.data ?? error);
+            logout();
 
-
-            alert(
-                "Login Successful"
-            );
-
-
-            navigate("/dashboard");
-
-
+            if ([400, 401].includes(error.response?.status)) {
+                setErrorMessage("Invalid mobile or password");
+            } else {
+                setErrorMessage("Unable to log in. Please try again.");
+            }
+        } finally {
+            setIsSubmitting(false);
         }
-
-        catch(error){
-
-            console.log(error.response);
-
-
-            alert(
-                "Invalid mobile or password"
-            );
-
-        }
-
-
     };
 
 
-    return(
-
+    return (
         <div>
-
-
-            <h1>
-                Patient Login
-            </h1>
-
+            <h1>Patient Login</h1>
 
             <form onSubmit={handleLogin}>
-
-
                 <input
-
                     type="text"
-
                     placeholder="Mobile Number"
-
                     value={mobile}
-
-                    onChange={
-                        (e)=>setMobile(e.target.value)
-                    }
-
+                    onChange={(event) => setMobile(event.target.value)}
+                    autoComplete="username"
+                    required
                 />
 
-
-                <br/>
-
+                <br />
 
                 <input
-
                     type="password"
-
                     placeholder="Password"
-
                     value={password}
-
-                    onChange={
-                        (e)=>setPassword(e.target.value)
-                    }
-
+                    onChange={(event) => setPassword(event.target.value)}
+                    autoComplete="current-password"
+                    required
                 />
 
+                <br />
 
-                <br/>
+                {errorMessage && <p role="alert">{errorMessage}</p>}
 
-
-                <button type="submit">
-
-                    Login
-
+                <button type="submit" disabled={isSubmitting}>
+                    {isSubmitting ? "Logging in..." : "Login"}
                 </button>
-
-
             </form>
-
-
         </div>
-
-
     );
-
-
 }
 
 

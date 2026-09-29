@@ -1,8 +1,7 @@
-from rest_framework import generics
+from rest_framework import generics, status
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
-
 from rest_framework_simplejwt.tokens import RefreshToken
 
 
@@ -58,10 +57,8 @@ class PatientLoginView(APIView):
             patient = serializer.validated_data["patient"]
 
 
-            refresh = RefreshToken()
-
-
-            refresh["patient_id"] = patient.id
+            # for_user adds the user_id claim required by JWTAuthentication.
+            refresh = RefreshToken.for_user(patient)
 
             refresh["mobile"] = patient.mobile
 
@@ -103,17 +100,13 @@ class PatientLoginView(APIView):
 
         )
 
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.views import APIView
-
-
 class PatientProfileView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
 
-        patient = request.user.patient
+        # AUTH_USER_MODEL is Patient, so request.user is already the patient.
+        patient = request.user
 
         data = {
             "id": patient.id,
@@ -127,4 +120,4 @@ class PatientProfileView(APIView):
             "last_visit_date": patient.last_visit_date
         }
 
-        return Response(data)   
+        return Response(data)

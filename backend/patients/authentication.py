@@ -1,6 +1,4 @@
 from rest_framework import serializers
-from django.contrib.auth.hashers import check_password
-
 from .models import Patient
 
 
@@ -32,10 +30,7 @@ class PatientLoginSerializer(serializers.Serializer):
             )
 
 
-        if not check_password(
-            password,
-            patient.password
-        ):
+        if not patient.check_password(password):
 
             raise serializers.ValidationError(
                 "Invalid mobile or password"

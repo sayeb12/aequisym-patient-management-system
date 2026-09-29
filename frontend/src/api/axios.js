@@ -1,28 +1,93 @@
 import axios from "axios";
 
+import {
+    getAccessToken,
+    getRefreshToken,
+    logout,
+    setAccessToken,
+} from "../utils/auth";
+
+
+const API_BASE_URL = "http://127.0.0.1:8000/api/";
 
 const api = axios.create({
-    baseURL: "http://127.0.0.1:8000/api/",
-    headers: {
-        "Content-Type": "application/json",
-    },
+    baseURL: API_BASE_URL,
 });
+
+// This client deliberately has no auth interceptors. It prevents an expired
+// access token from blocking the refresh request itself.
+const refreshClient = axios.create({
+    baseURL: API_BASE_URL,
+});
+
+let refreshPromise = null;
 
 
 api.interceptors.request.use(
     (config) => {
+        if (config.skipAuth) {
+            return config;
+        }
 
-        const token = localStorage.getItem("access_token");
+        const accessToken = getAccessToken();
 
-        if (token) {
-            config.headers.Authorization = `Bearer ${token}`;
+        if (accessToken) {
+            config.headers.Authorization = `Bearer ${accessToken}`;
         }
 
         return config;
     },
+    (error) => Promise.reject(error)
+);
 
-    (error) => {
-        return Promise.reject(error);
+
+api.interceptors.response.use(
+    (response) => response,
+    async (error) => {
+        const originalRequest = error.config;
+
+        if (
+            error.response?.status !== 401
+            || !originalRequest
+            || originalRequest._retry
+            || originalRequest.skipAuth
+        ) {
+            return Promise.reject(error);
+        }
+
+        const refreshToken = getRefreshToken();
+
+        if (!refreshToken) {
+            logout();
+            window.location.replace("/");
+            return Promise.reject(error);
+        }
+
+        originalRequest._retry = true;
+
+        try {
+            if (!refreshPromise) {
+                refreshPromise = refreshClient
+                    .post("token/refresh/", { refresh: refreshToken })
+                    .then((response) => {
+                        const newAccessToken = response.data.access;
+                        setAccessToken(newAccessToken);
+                        return newAccessToken;
+                    })
+                    .finally(() => {
+                        refreshPromise = null;
+                    });
+            }
+
+            const newAccessToken = await refreshPromise;
+            originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+
+            return api(originalRequest);
+        } catch (refreshError) {
+            logout();
+            window.location.replace("/");
+            return Promise.reject(refreshError);
+        }
     }
 );
 
