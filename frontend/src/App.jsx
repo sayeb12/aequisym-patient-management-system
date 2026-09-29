@@ -9,6 +9,7 @@ from "react-router-dom";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Patients from "./pages/Patients";
+import AddPatient from "./pages/AddPatient";
 
 function App(){
 
@@ -40,8 +41,13 @@ function App(){
 
                 <Route 
                     path="/patients"
-                    
+
                     element={<Patients/>}
+                />
+
+                <Route
+                    path="/add-patient"
+                    element={<AddPatient/>}
                 />
 
 
