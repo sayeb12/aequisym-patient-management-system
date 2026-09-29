@@ -3,7 +3,7 @@ import {
     Routes,
     Route
 }
-from "react-router-dom";
+    from "react-router-dom";
 
 
 import Login from "./pages/Login";
@@ -13,11 +13,12 @@ import AddPatient from "./pages/AddPatient";
 import AddVisit from "./pages/AddVisit";
 import Visits from "./pages/Visits";
 import UpdatePatient from "./pages/UpdatePatient";
+import ViewPatient from "./pages/ViewPatient";
 
-function App(){
+function App() {
 
 
-    return(
+    return (
 
         <BrowserRouter>
 
@@ -29,7 +30,7 @@ function App(){
 
                     path="/"
 
-                    element={<Login/>}
+                    element={<Login />}
 
                 />
 
@@ -38,34 +39,39 @@ function App(){
 
                     path="/dashboard"
 
-                    element={<Dashboard/>}
+                    element={<Dashboard />}
 
                 />
 
-                <Route 
+                <Route
                     path="/patients"
 
-                    element={<Patients/>}
+                    element={<Patients />}
                 />
 
                 <Route
                     path="/add-patient"
-                    element={<AddPatient/>}
+                    element={<AddPatient />}
                 />
 
-                <Route 
+                <Route
                     path="/add-visit"
-                    element={<AddVisit/>}
+                    element={<AddVisit />}
                 />
 
                 <Route
                     path="/visits"
-                    element={<Visits/>}
+                    element={<Visits />}
                 />
 
                 <Route
                     path="/update-patient"
-                    element={<UpdatePatient/>}
+                    element={<UpdatePatient />}
+                />
+
+                <Route
+                    path="/view-patient"
+                    element={<ViewPatient />}
                 />
 
 

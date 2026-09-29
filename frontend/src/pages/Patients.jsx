@@ -186,6 +186,25 @@ function Patients() {
                                         View Visits
                                     </button>
 
+                                    <button
+
+                                        onClick={() => {
+
+                                            navigate(
+                                                "/view-patient",
+                                                {
+                                                    state: {
+                                                        patientId: patient.id
+                                                    }
+                                                }
+                                            )
+
+                                        }}
+
+                                    >
+                                        View Patient
+                                    </button>
+
 
                                 </td>
 
