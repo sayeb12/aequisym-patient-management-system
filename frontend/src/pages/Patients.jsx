@@ -1,4 +1,4 @@
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import api from "../api/axios";
 
@@ -189,6 +189,25 @@ function Patients() {
                                         }}
                                     >
                                         Add Visit
+                                    </button>
+
+                                    <button
+
+                                        onClick={() => {
+
+                                            navigate(
+                                                "/visits",
+                                                {
+                                                    state: {
+                                                        patient: patient
+                                                    }
+                                                }
+                                            )
+
+                                        }}
+
+                                    >
+                                        View Visits
                                     </button>
 
 

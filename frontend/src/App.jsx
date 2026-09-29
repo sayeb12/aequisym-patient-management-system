@@ -11,6 +11,7 @@ import Dashboard from "./pages/Dashboard";
 import Patients from "./pages/Patients";
 import AddPatient from "./pages/AddPatient";
 import AddVisit from "./pages/AddVisit";
+import Visits from "./pages/Visits";
 
 function App(){
 
@@ -54,6 +55,11 @@ function App(){
                 <Route 
                     path="/add-visit"
                     element={<AddVisit/>}
+                />
+
+                <Route
+                    path="/visits"
+                    element={<Visits/>}
                 />
 
 
