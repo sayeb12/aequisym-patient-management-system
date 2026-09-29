@@ -3,81 +3,31 @@
 A full-stack Patient Management System developed as a recruitment task
 using Django REST Framework, PostgreSQL, and React.js.
 
-------------------------------------------------------------------------
+## Fresh Setup Guide
 
-# Technology Stack
+### Clone Repository
 
-## Backend
+``` bash
+git clone https://github.com/sayeb12/aequisym-patient-management-system.git
+cd aequisym-patient-management-system
+```
 
--   Python
--   Django
--   Django REST Framework
--   PostgreSQL
--   Simple JWT Authentication
-
-## Frontend
-
--   React.js
--   Vite
--   Axios
--   React Router
-
-------------------------------------------------------------------------
-
-# Project Structure
-
-    aequisym-patient-management-system/
-
-    ├── backend/
-    │   ├── patients/
-    │   ├── config/
-    │   ├── manage.py
-    │   └── requirements.txt
-    │
-    └── frontend/
-        ├── src/
-        ├── package.json
-        └── vite.config.js
-
-------------------------------------------------------------------------
-
-# Backend Setup
-
-## 1. Go to backend folder
+### Backend Setup
 
 ``` bash
 cd backend
-```
-
-## 2. Create virtual environment
-
-``` bash
 python -m venv venv
-```
-
-## 3. Activate virtual environment
-
-Windows:
-
-``` bash
 venv\Scripts\activate
-```
-
-## 4. Install dependencies
-
-``` bash
 pip install -r requirements.txt
 ```
 
-------------------------------------------------------------------------
+### PostgreSQL Setup
 
-# PostgreSQL Database Setup
-
-Database used:
+Database:
 
     patient_management_db
 
-Database configuration:
+Configuration:
 
     ENGINE: django.db.backends.postgresql
     NAME: patient_management_db
@@ -86,41 +36,23 @@ Database configuration:
     HOST: localhost
     PORT: 5432
 
-------------------------------------------------------------------------
-
-# Database Migration
-
-Run:
+### Migration
 
 ``` bash
 python manage.py makemigrations
 python manage.py migrate
 ```
 
-------------------------------------------------------------------------
-
-# Import Patient Dataset
-
-The recruitment task dataset is imported using a Django management
-command.
-
-Run:
+### Import Dataset
 
 ``` bash
 python manage.py import_patients
 ```
 
-The script uses `update_or_create()`.
+The import script uses `update_or_create()` to prevent duplicate
+records.
 
-Behavior:
-
--   Existing patients are updated.
--   Duplicate rows are not created.
--   New patients are inserted.
-
-------------------------------------------------------------------------
-
-# Run Backend Server
+### Run Backend
 
 ``` bash
 python manage.py runserver
@@ -130,110 +62,11 @@ Backend URL:
 
     http://127.0.0.1:8000/
 
-------------------------------------------------------------------------
-
-# Database Models
-
-## Patient Table
-
-Fields:
-
--   first_name
--   last_name
--   mobile
--   age
--   gender
--   address
--   blood_group
--   total_visits
--   last_visit_date
--   password
-
-Login:
-
-    mobile + password
-
-------------------------------------------------------------------------
-
-## PatientVisit Table
-
-Fields:
-
--   patient (Foreign Key)
--   doctor_name
--   visit_date
--   clinical_note
-
-Creating a visit automatically updates:
-
--   total_visits
--   last_visit_date
-
-------------------------------------------------------------------------
-
-# REST API Endpoints
-
-## Patient APIs
-
-Get all patients:
-
-    GET /api/patients/
-
-Create patient:
-
-    POST /api/patients/
-
-Get single patient:
-
-    GET /api/patients/<id>/
-
-Update patient:
-
-    PUT /api/patients/<id>/
-
-Delete patient:
-
-    DELETE /api/patients/<id>/
-
-------------------------------------------------------------------------
-
-## Patient Visit API
-
-Create visit:
-
-    POST /api/patient-visits/
-
-------------------------------------------------------------------------
-
-## Authentication API
-
-Login:
-
-    POST /api/login/
-
-JWT Refresh:
-
-    POST /api/token/refresh/
-
-------------------------------------------------------------------------
-
-# Frontend Setup
-
-## 1. Go to frontend folder
+### Frontend Setup
 
 ``` bash
 cd frontend
-```
-
-## 2. Install packages
-
-``` bash
 npm install
-```
-
-## 3. Start React application
-
-``` bash
 npm run dev
 ```
 
@@ -241,109 +74,43 @@ Frontend URL:
 
     http://localhost:5173/
 
-------------------------------------------------------------------------
+## Features
 
-# Frontend Features
-
-## Authentication
-
--   Login using mobile number and password
--   JWT based authentication
--   Protected dashboard
-
-## Patient Management
-
-Implemented:
-
+-   JWT authentication
+-   Patient login using mobile and password
 -   Add patient
 -   View patient list
 -   View patient details
 -   Update patient
 -   Delete patient
-
-## Patient Visit Management
-
-Implemented:
-
 -   Add patient visit
 -   View visit history
 
-Automatically updates:
+## API Endpoints
 
-    total_visits
-    last_visit_date
+    GET /api/patients/
+    POST /api/patients/
+    GET /api/patients/<id>/
+    PUT /api/patients/<id>/
+    DELETE /api/patients/<id>/
 
-------------------------------------------------------------------------
+    POST /api/patient-visits/
 
-# API Communication
+    POST /api/login/
+    POST /api/token/refresh/
 
-Frontend communicates with backend using:
+## Sample Login
 
-    Axios
-
-------------------------------------------------------------------------
-
-# Development Approach
-
-Backend:
-
--   Django Class Based Views
--   Django REST Framework Generic Views
--   Serializers
--   JWT Authentication
-
-Frontend:
-
--   React Components
--   React Router
--   Axios API requests
-
-------------------------------------------------------------------------
-
-# Sample Login
-
-Mobile:
-
+    Mobile:
     01700000000
 
-Password:
-
+    Password:
     test12345
 
-------------------------------------------------------------------------
-
-# Complete Run Process
-
-## Backend Terminal
-
-``` bash
-cd backend
-
-venv\Scripts\activate
-
-python manage.py runserver
-```
-
-## Frontend Terminal
-
-``` bash
-cd frontend
-
-npm run dev
-```
-
-Open:
-
-    http://localhost:5173/
-
-------------------------------------------------------------------------
-
-# Author
+## Author
 
 Md Abu Ubaida Jubaer Sayeb
 
-------------------------------------------------------------------------
+## Repository
 
-# GitHub Repository
-
-    https://github.com/sayeb12/aequisym-patient-management-system
+https://github.com/sayeb12/aequisym-patient-management-system
