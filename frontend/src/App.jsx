@@ -12,6 +12,7 @@ import Patients from "./pages/Patients";
 import AddPatient from "./pages/AddPatient";
 import AddVisit from "./pages/AddVisit";
 import Visits from "./pages/Visits";
+import UpdatePatient from "./pages/UpdatePatient";
 
 function App(){
 
@@ -60,6 +61,11 @@ function App(){
                 <Route
                     path="/visits"
                     element={<Visits/>}
+                />
+
+                <Route
+                    path="/update-patient"
+                    element={<UpdatePatient/>}
                 />
 
 

@@ -56,44 +56,7 @@ function Patients() {
 
 
 
-    const updatePatient = async (patient) => {
 
-
-        const newAddress = prompt(
-            "Enter new address",
-            patient.address
-        );
-
-
-        if (newAddress === null)
-            return;
-
-
-
-        try {
-
-            await api.put(
-                `/patients/${patient.id}/`,
-                {
-                    ...patient,
-                    address: newAddress
-                }
-            );
-
-
-            alert("Patient updated");
-
-            loadPatients();
-
-
-        }
-        catch (error) {
-
-            console.log(error);
-
-        }
-
-    };
 
 
 
@@ -162,7 +125,20 @@ function Patients() {
 
 
                                     <button
-                                        onClick={() => updatePatient(patient)}
+
+                                        onClick={() => {
+
+                                            navigate(
+                                                "/update-patient",
+                                                {
+                                                    state: {
+                                                        patient: patient
+                                                    }
+                                                }
+                                            )
+
+                                        }}
+
                                     >
                                         Update
                                     </button>
