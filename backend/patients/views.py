@@ -102,3 +102,29 @@ class PatientLoginView(APIView):
             status=status.HTTP_400_BAD_REQUEST
 
         )
+
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
+
+
+class PatientProfileView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+
+        patient = request.user.patient
+
+        data = {
+            "id": patient.id,
+            "name": patient.first_name + " " + patient.last_name,
+            "mobile": patient.mobile,
+            "age": patient.age,
+            "gender": patient.gender,
+            "address": patient.address,
+            "blood_group": patient.blood_group,
+            "total_visits": patient.total_visits,
+            "last_visit_date": patient.last_visit_date
+        }
+
+        return Response(data)   

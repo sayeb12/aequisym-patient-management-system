@@ -4,7 +4,8 @@ from .views import (
     PatientListCreateView,
     PatientRetrieveUpdateDestroyView,
     PatientVisitCreateView,
-    PatientLoginView
+    PatientLoginView,
+    PatientProfileView
 )
 
 
@@ -35,6 +36,12 @@ urlpatterns = [
         "login/",
         PatientLoginView.as_view(),
         name="patient-login"
+    ),
+
+    path(
+        "profile/",
+        PatientProfileView.as_view(),
+        name="patient-profile"
     ),
 
 ]
