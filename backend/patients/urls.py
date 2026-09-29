@@ -5,6 +5,7 @@ from .views import (
     PatientListCreateView,
     PatientRetrieveUpdateDestroyView,
     PatientVisitCreateView,
+    PatientVisitListView,
     PatientLoginView,
     PatientProfileView
 )
@@ -32,6 +33,12 @@ urlpatterns = [
         name="patient-visit-create"
     ),
 
+    path(
+        "patients/<int:patient_id>/visits/",
+        PatientVisitListView.as_view(),
+        name="patient-visit-list"
+    ),
+
 
     path(
         "login/",
@@ -50,5 +57,7 @@ urlpatterns = [
         TokenRefreshView.as_view(),
         name="token-refresh"
     ),
+
+
 
 ]

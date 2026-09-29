@@ -121,3 +121,17 @@ class PatientProfileView(APIView):
         }
 
         return Response(data)
+
+
+class PatientVisitListView(generics.ListAPIView):
+
+    serializer_class = PatientVisitSerializer
+
+
+    def get_queryset(self):
+
+        patient_id = self.kwargs["patient_id"]
+
+        return PatientVisit.objects.filter(
+            patient_id=patient_id
+        )
