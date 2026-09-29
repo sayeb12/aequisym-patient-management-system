@@ -8,7 +8,7 @@ from "react-router-dom";
 
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
-
+import Patients from "./pages/Patients";
 
 function App(){
 
@@ -36,6 +36,12 @@ function App(){
 
                     element={<Dashboard/>}
 
+                />
+
+                <Route 
+                    path="/patients"
+                    
+                    element={<Patients/>}
                 />
 
 
