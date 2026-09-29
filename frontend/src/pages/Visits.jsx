@@ -3,32 +3,51 @@ import { useLocation } from "react-router-dom";
 import api from "../api/axios";
 
 
-function Visits(){
+function Visits() {
 
     const location = useLocation();
 
-    const patient = location.state.patient;
+    const patient = location.state?.patient;
 
 
     const [visits, setVisits] = useState([]);
 
 
 
-    const loadVisits = async()=>{
+    // If user opens /visits directly without selecting a patient
+    if (!patient) {
+
+        return (
+
+            <div>
+
+                <h2>
+                    No patient selected
+                </h2>
+
+            </div>
+
+        );
+
+    }
 
 
-        try{
+
+    const loadVisits = async () => {
+
+
+        try {
 
             const response = await api.get(
                 `/patients/${patient.id}/visits/`
             );
 
 
-            setVisits(response.data);
+            setVisits(response.data.results);
 
 
         }
-        catch(error){
+        catch (error) {
 
             console.log(error);
 
@@ -39,15 +58,16 @@ function Visits(){
 
 
 
-    useEffect(()=>{
+    useEffect(() => {
 
         loadVisits();
 
-    },[]);
+    }, []);
 
 
 
-    return(
+
+    return (
 
         <div>
 
@@ -55,6 +75,7 @@ function Visits(){
             <h1>
                 Patient Visit History
             </h1>
+
 
 
             <h2>
@@ -74,11 +95,19 @@ function Visits(){
 
                     <tr>
 
-                        <th>Doctor Name</th>
+                        <th>
+                            Doctor Name
+                        </th>
 
-                        <th>Visit Date</th>
 
-                        <th>Clinical Note</th>
+                        <th>
+                            Visit Date
+                        </th>
+
+
+                        <th>
+                            Clinical Note
+                        </th>
 
 
                     </tr>
@@ -92,24 +121,33 @@ function Visits(){
 
 
                     {
-                        visits.map((visit)=>(
+
+                        visits.map((visit) => (
 
 
                             <tr key={visit.id}>
 
 
                                 <td>
+
                                     {visit.doctor_name}
+
                                 </td>
 
 
+
                                 <td>
+
                                     {visit.visit_date}
+
                                 </td>
 
 
+
                                 <td>
+
                                     {visit.clinical_note}
+
                                 </td>
 
 
@@ -118,6 +156,7 @@ function Visits(){
 
 
                         ))
+
                     }
 
 

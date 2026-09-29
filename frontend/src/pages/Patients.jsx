@@ -10,13 +10,24 @@ function Patients() {
 
     const [patients, setPatients] = useState([]);
 
-    const loadPatients = async () => {
+    const [nextPage, setNextPage] = useState(null);
+
+    const [previousPage, setPreviousPage] = useState(null);
+    const loadPatients = async (url = "/patients/") => {
 
         try {
 
-            const response = await api.get("/patients/");
+            const response = await api.get(url);
+
 
             setPatients(response.data.results);
+
+
+            setNextPage(response.data.next);
+
+
+            setPreviousPage(response.data.previous);
+
 
         } catch (error) {
 
@@ -26,14 +37,11 @@ function Patients() {
 
     };
 
-
     useEffect(() => {
 
         loadPatients();
 
     }, []);
-
-
 
     const deletePatient = async (id) => {
 
@@ -221,6 +229,34 @@ function Patients() {
 
             </table>
 
+            <br />
+
+
+            <button
+
+                disabled={!previousPage}
+
+                onClick={() => loadPatients(previousPage)}
+
+            >
+
+                Previous
+
+            </button>
+
+
+
+            <button
+
+                disabled={!nextPage}
+
+                onClick={() => loadPatients(nextPage)}
+
+            >
+
+                Next
+
+            </button>
 
         </div>
 
