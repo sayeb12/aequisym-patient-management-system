@@ -16,7 +16,7 @@ function Patients() {
 
             const response = await api.get("/patients/");
 
-            setPatients(response.data);
+            setPatients(response.data.results);
 
         } catch (error) {
 
