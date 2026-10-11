@@ -1,0 +1,98 @@
+:root {
+  color-scheme: light;
+
+  /* Brand palette */
+  --color-dark-teal: #28665d;
+  --color-emerald-teal: #2d9d87;
+  --color-muted-teal: #438f83;
+  --color-warm-off-white: #f4f3f1;
+  --color-charcoal: #36383d;
+  --color-soft-gray: #a4a5a4;
+
+  /* Semantic colors */
+  --color-primary: var(--color-dark-teal);
+  --color-primary-hover: #22584f;
+  --color-accent: var(--color-emerald-teal);
+  --color-accent-soft: #dceeea;
+  --color-surface: #ffffff;
+  --color-surface-subtle: var(--color-warm-off-white);
+  --color-text: var(--color-charcoal);
+  --color-text-muted: #626a69;
+  --color-border: #d8dcda;
+  --color-border-strong: var(--color-soft-gray);
+  --color-focus: var(--color-emerald-teal);
+  --color-success: #247a68;
+  --color-danger: #b44747;
+  --color-warning: #9a6a24;
+
+  /* Gradients */
+  --gradient-primary: linear-gradient(
+    115deg,
+    #28665d 0%,
+    #287f70 52%,
+    #2d9d87 100%
+  );
+  --gradient-surface: linear-gradient(145deg, #ffffff 0%, #f4f3f1 100%);
+
+  /* Typography */
+  --font-family-sans: Inter, ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 2rem;
+  --font-size-display: clamp(2.25rem, 5vw, 4.25rem);
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --line-height-tight: 1.2;
+  --line-height-heading: 1.3;
+  --line-height-body: 1.6;
+  --letter-spacing-tight: -0.025em;
+
+  /* Spacing */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+
+  /* Border radii */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.25rem;
+  --radius-2xl: 1.5rem;
+  --radius-3xl: 1.75rem;
+  --radius-pill: 999px;
+
+  /* Restrained depth and elevation */
+  --shadow-xs: 0 1px 2px rgba(40, 102, 93, 0.08);
+  --shadow-sm: 0 4px 12px rgba(40, 102, 93, 0.08);
+  --shadow-md: 0 12px 30px rgba(40, 102, 93, 0.11);
+  --shadow-lg: 0 24px 60px rgba(40, 102, 93, 0.15);
+  --shadow-inset-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+
+  /* Motion */
+  --duration-instant: 100ms;
+  --duration-fast: 150ms;
+  --duration-normal: 220ms;
+  --duration-slow: 320ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-emphasized: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  /* Focus treatment */
+  --focus-ring-width: 3px;
+  --focus-ring-offset: 3px;
+  --focus-ring: 0 0 0 var(--focus-ring-width) rgba(45, 157, 135, 0.28);
+}
