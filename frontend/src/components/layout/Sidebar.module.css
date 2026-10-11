@@ -1,0 +1,294 @@
+.desktopSidebar,
+.drawer {
+  color: rgba(255, 255, 255, 0.82);
+  background: #214f49;
+}
+
+.desktopSidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  padding: var(--space-6) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid rgba(22, 61, 56, 0.38);
+  box-shadow: inset -1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.sidebarHeader {
+  min-height: 3.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.brand {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.brandMark {
+  width: 2.85rem;
+  height: 2.85rem;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-md);
+  color: #d8f0ea;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.12);
+}
+
+.brandMark svg {
+  width: 1.9rem;
+  height: 1.9rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+}
+
+.brandText {
+  min-width: 0;
+  display: grid;
+  gap: 0.05rem;
+}
+
+.brandText strong {
+  color: #ffffff;
+  font-size: 0.92rem;
+  letter-spacing: 0.13em;
+}
+
+.brandText small {
+  overflow: hidden;
+  color: rgba(225, 241, 237, 0.64);
+  font-size: 0.69rem;
+  letter-spacing: 0.03em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.closeButton {
+  width: 2.75rem;
+  height: 2.75rem;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: var(--radius-md);
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.07);
+  cursor: pointer;
+  transition:
+    border-color var(--duration-fast) var(--ease-standard),
+    background-color var(--duration-fast) var(--ease-standard);
+}
+
+.closeButton:hover {
+  border-color: rgba(255, 255, 255, 0.24);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.closeButton svg {
+  width: 1.25rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-width: 1.8;
+}
+
+.navigation {
+  margin-top: clamp(2.5rem, 7vh, 4.5rem);
+}
+
+.navigationLabel {
+  margin: 0 0 var(--space-3);
+  padding-inline: var(--space-3);
+  color: rgba(225, 241, 237, 0.48);
+  font-size: 0.66rem;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.navigationList {
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-2);
+  list-style: none;
+}
+
+.navigationLink {
+  position: relative;
+  min-height: 3.25rem;
+  padding: 0.65rem var(--space-3);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  overflow: hidden;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  color: rgba(239, 247, 245, 0.7);
+  text-decoration: none;
+  transition:
+    color var(--duration-fast) var(--ease-standard),
+    background-color var(--duration-fast) var(--ease-standard),
+    transform var(--duration-fast) var(--ease-standard);
+}
+
+.navigationLink:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.06);
+  transform: translateX(2px);
+}
+
+.navigationLinkActive {
+  color: #ffffff;
+}
+
+.activeIndicator {
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(204, 238, 229, 0.18);
+  border-radius: inherit;
+  background: rgba(255, 255, 255, 0.105);
+  box-shadow:
+    inset 3px 0 #77c7b6,
+    inset 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.navigationIcon,
+.navigationText {
+  position: relative;
+  z-index: 1;
+}
+
+.navigationIcon {
+  width: 1.3rem;
+  height: 1.3rem;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+}
+
+.navigationIcon svg {
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.7;
+}
+
+.navigationText {
+  overflow: hidden;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sidebarFooter {
+  margin-top: auto;
+  padding-top: var(--space-5);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logoutButton {
+  width: 100%;
+  min-height: 3rem;
+  padding: 0.65rem var(--space-3);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  color: rgba(239, 247, 245, 0.72);
+  background: transparent;
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+  text-align: left;
+  transition:
+    color var(--duration-fast) var(--ease-standard),
+    border-color var(--duration-fast) var(--ease-standard),
+    background-color var(--duration-fast) var(--ease-standard);
+}
+
+.logoutButton:hover {
+  border-color: rgba(255, 255, 255, 0.11);
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.logoutButton svg {
+  width: 1.3rem;
+  height: 1.3rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.7;
+}
+
+.backdrop {
+  position: fixed;
+  z-index: 40;
+  inset: 0;
+  background: rgba(26, 43, 39, 0.42);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+}
+
+.drawer {
+  position: fixed;
+  z-index: 50;
+  inset: 0 auto 0 0;
+  width: min(19rem, calc(100vw - 2rem));
+  min-width: 17rem;
+  padding: var(--space-5) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 24px 0 64px rgba(17, 49, 44, 0.22);
+}
+
+@media (max-width: 80rem) and (min-width: 64rem) {
+  .desktopSidebar {
+    padding-inline: var(--space-3);
+  }
+}
+
+@media (max-width: 63.99rem) {
+  .desktopSidebar {
+    display: none;
+  }
+
+  .navigation {
+    margin-top: var(--space-10);
+  }
+}
+
+@media (min-width: 64rem) {
+  .backdrop,
+  .drawer {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .navigationLink {
+    transition-duration: 0.01ms;
+  }
+
+  .navigationLink:hover {
+    transform: none;
+  }
+}
