@@ -1,0 +1,114 @@
+.authPage {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: clamp(1rem, 4vw, 3.5rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 8% 10%, rgba(214, 237, 229, 0.68), transparent 27rem),
+    radial-gradient(circle at 92% 88%, rgba(222, 228, 227, 0.5), transparent 33rem),
+    linear-gradient(145deg, #fafbf9 0%, #f6f7f5 52%, #f2f4f2 100%);
+}
+
+.authPage::before {
+  position: fixed;
+  z-index: 0;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+  background:
+    linear-gradient(120deg, rgba(255, 255, 255, 0.58), transparent 42%),
+    radial-gradient(circle at 50% 43%, rgba(255, 255, 255, 0.7), transparent 27rem);
+}
+
+.atmosphere {
+  position: fixed;
+  z-index: 0;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.gridTexture {
+  position: absolute;
+  inset: 0;
+  opacity: 0.18;
+  background-image:
+    linear-gradient(rgba(40, 102, 93, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(40, 102, 93, 0.035) 1px, transparent 1px);
+  background-size: 64px 64px;
+  -webkit-mask-image: radial-gradient(circle at center, black 0%, transparent 64%);
+  mask-image: radial-gradient(circle at center, black 0%, transparent 64%);
+}
+
+.glow {
+  position: absolute;
+  display: block;
+  border-radius: 50%;
+  filter: blur(48px);
+}
+
+.glowOne {
+  top: -15rem;
+  left: -13rem;
+  width: 36rem;
+  aspect-ratio: 1;
+  background: rgba(160, 218, 202, 0.2);
+}
+
+.glowTwo {
+  right: -15rem;
+  bottom: -17rem;
+  width: 39rem;
+  aspect-ratio: 1;
+  background: rgba(186, 201, 201, 0.17);
+}
+
+.authContent {
+  position: relative;
+  z-index: 3;
+  width: min(100%, 30rem);
+  margin: auto;
+}
+
+@media (max-width: 48rem) {
+  .authPage {
+    padding: clamp(1rem, 5vw, 2.25rem);
+  }
+
+  .authContent {
+    width: min(100%, 29rem);
+  }
+
+  .gridTexture {
+    opacity: 0.12;
+    background-size: 52px 52px;
+  }
+
+  .glowOne {
+    top: -18rem;
+    left: -21rem;
+  }
+
+  .glowTwo {
+    right: -23rem;
+    bottom: -20rem;
+  }
+}
+
+@media (max-width: 30rem) {
+  .authPage {
+    padding: var(--space-3);
+  }
+}
+
+@media (max-height: 42rem) {
+  .authPage {
+    align-items: flex-start;
+    padding-block: var(--space-4);
+  }
+}
