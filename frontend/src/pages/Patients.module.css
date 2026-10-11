@@ -1,0 +1,777 @@
+.directory {
+  width: 100%;
+  min-width: 0;
+  color: var(--color-text);
+}
+
+.introduction {
+  padding-bottom: clamp(1.75rem, 4vw, 3.25rem);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-8);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.introduction > div:first-child {
+  min-width: 0;
+  max-width: 46rem;
+}
+
+.eyebrow,
+.sectionKicker {
+  display: block;
+  color: var(--color-muted-teal);
+  font-size: 0.7rem;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.15em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.introduction h2,
+.emptyState h2,
+.errorState h2 {
+  margin: 0;
+  color: var(--color-charcoal);
+  letter-spacing: var(--letter-spacing-tight);
+}
+
+.introduction h2 {
+  margin-top: var(--space-3);
+  font-size: clamp(2rem, 4vw, 3.75rem);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.04;
+}
+
+.introduction p {
+  max-width: 42rem;
+  margin: var(--space-5) 0 0;
+  color: var(--color-text-muted);
+  font-size: clamp(0.95rem, 1.4vw, 1.08rem);
+  line-height: 1.7;
+}
+
+.count {
+  min-width: 7.5rem;
+  padding-left: var(--space-6);
+  display: grid;
+  border-left: 1px solid var(--color-border);
+  text-align: right;
+}
+
+.count strong {
+  color: var(--color-primary);
+  font-size: clamp(1.85rem, 3vw, 2.6rem);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.count span {
+  margin-top: var(--space-2);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.tableContainer {
+  margin-top: clamp(2rem, 4vw, 3rem);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+}
+
+.patientTable {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.patientTable th,
+.patientTable td {
+  padding: var(--space-4);
+  text-align: left;
+  vertical-align: middle;
+}
+
+.patientTable th {
+  color: var(--color-text-muted);
+  background: #f6f8f7;
+  font-size: 0.68rem;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.09em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.patientTable th:first-child {
+  width: 19%;
+}
+
+.patientTable th:nth-child(2) {
+  width: 13%;
+}
+
+.patientTable th:nth-child(3) {
+  width: 6%;
+}
+
+.patientTable th:nth-child(4) {
+  width: 8%;
+}
+
+.patientTable th:nth-child(5) {
+  width: 9%;
+}
+
+.patientTable th:last-child {
+  width: 45%;
+}
+
+.patientTable td {
+  border-top: 1px solid var(--color-border);
+  color: var(--color-charcoal);
+  font-size: var(--font-size-sm);
+  overflow-wrap: anywhere;
+}
+
+.patientTable tbody tr {
+  transition: background-color var(--duration-fast) var(--ease-standard);
+}
+
+.patientTable tbody tr:hover {
+  background: rgba(220, 238, 234, 0.24);
+}
+
+.patientIdentity,
+.cardHeader {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.avatar {
+  width: 2.65rem;
+  height: 2.65rem;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  border: 1px solid rgba(45, 157, 135, 0.24);
+  border-radius: 50%;
+  color: var(--color-primary);
+  background: var(--color-accent-soft);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.04em;
+}
+
+.identityCopy {
+  min-width: 0;
+  display: grid;
+  gap: 0.15rem;
+}
+
+.identityCopy strong,
+.identityCopy h2 {
+  margin: 0;
+  color: var(--color-charcoal);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.identityCopy small,
+.identityCopy span {
+  color: var(--color-text-muted);
+  font-size: 0.7rem;
+  line-height: 1.4;
+}
+
+.bloodGroup {
+  color: var(--color-primary);
+  font-weight: var(--font-weight-semibold);
+}
+
+.actionsCell {
+  padding-block: var(--space-3) !important;
+}
+
+.actionGroup {
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.actionGroup button,
+.pagination button,
+.emptyState button,
+.errorState button {
+  min-height: 2.35rem;
+  padding: 0.48rem 0.7rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 0.76rem;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.2;
+  transition:
+    color var(--duration-fast) var(--ease-standard),
+    border-color var(--duration-fast) var(--ease-standard),
+    background-color var(--duration-fast) var(--ease-standard),
+    box-shadow var(--duration-fast) var(--ease-standard),
+    transform var(--duration-fast) var(--ease-standard);
+}
+
+.actionGroup button:hover,
+.pagination button:not(:disabled):hover,
+.emptyState button:hover,
+.errorState button:hover {
+  transform: translateY(-1px);
+}
+
+.viewAction {
+  border: 1px solid var(--color-primary);
+  color: #fff;
+  background: var(--color-primary);
+}
+
+.viewAction:hover {
+  border-color: var(--color-primary-hover);
+  background: var(--color-primary-hover);
+  box-shadow: var(--shadow-xs);
+}
+
+.visitAction {
+  border: 1px solid rgba(45, 157, 135, 0.34);
+  color: var(--color-primary);
+  background: var(--color-accent-soft);
+}
+
+.visitAction:hover {
+  border-color: var(--color-accent);
+  background: #cfe7e1;
+}
+
+.secondaryAction {
+  border: 1px solid var(--color-border);
+  color: var(--color-charcoal);
+  background: var(--color-surface);
+}
+
+.secondaryAction:hover {
+  border-color: var(--color-border-strong);
+  background: var(--color-surface-subtle);
+}
+
+.deleteAction {
+  border: 1px solid rgba(180, 71, 71, 0.28);
+  color: var(--color-danger);
+  background: rgba(180, 71, 71, 0.05);
+}
+
+.deleteAction:hover {
+  border-color: rgba(180, 71, 71, 0.55);
+  background: rgba(180, 71, 71, 0.1);
+}
+
+.patientCards {
+  display: none;
+}
+
+.pagination {
+  padding-top: var(--space-6);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-5);
+}
+
+.pagination p {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.pagination p strong {
+  color: var(--color-charcoal);
+  font-weight: var(--font-weight-semibold);
+}
+
+.pagination > div {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.pagination button {
+  min-width: 6.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  border: 1px solid var(--color-border);
+  color: var(--color-primary);
+  background: var(--color-surface);
+}
+
+.pagination button:not(:disabled):hover {
+  border-color: rgba(40, 102, 93, 0.42);
+  background: var(--color-accent-soft);
+}
+
+.pagination button:disabled {
+  cursor: not-allowed;
+  opacity: 0.42;
+}
+
+.loadingState {
+  margin-top: clamp(2rem, 4vw, 3rem);
+}
+
+.tableSkeleton {
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.skeletonHeader {
+  height: 3.2rem;
+  background: #f6f8f7;
+}
+
+.skeletonRow {
+  min-height: 5.4rem;
+  padding: var(--space-4);
+  display: grid;
+  grid-template-columns: auto minmax(6rem, 1.5fr) repeat(3, minmax(3rem, 0.7fr)) minmax(12rem, 2fr);
+  align-items: center;
+  gap: var(--space-4);
+  border-top: 1px solid var(--color-border);
+}
+
+.skeletonAvatar,
+.skeletonName,
+.skeletonDetail,
+.skeletonActions,
+.skeletonCardDetails,
+.skeletonCardActions {
+  display: block;
+  border-radius: var(--radius-sm);
+  background: var(--color-accent-soft);
+  animation: skeletonPulse 1.4s ease-in-out infinite alternate;
+}
+
+.skeletonAvatar {
+  width: 2.65rem;
+  height: 2.65rem;
+  border-radius: 50%;
+}
+
+.skeletonName {
+  width: min(100%, 9rem);
+  height: 0.85rem;
+}
+
+.skeletonDetail {
+  width: 70%;
+  height: 0.75rem;
+}
+
+.skeletonActions {
+  width: 100%;
+  height: 2.35rem;
+}
+
+.cardSkeletons {
+  display: none;
+}
+
+.errorState,
+.emptyState {
+  max-width: 46rem;
+  margin-block: clamp(2.5rem, 6vw, 5rem);
+}
+
+.errorState {
+  padding: var(--space-6) 0 var(--space-6) var(--space-6);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+  border-left: 3px solid var(--color-danger);
+}
+
+.errorMark,
+.emptyMark {
+  width: 2.5rem;
+  height: 2.5rem;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  font-weight: var(--font-weight-bold);
+}
+
+.errorMark {
+  color: var(--color-danger);
+  background: rgba(180, 71, 71, 0.1);
+}
+
+.errorState h2,
+.emptyState h2 {
+  font-size: clamp(1.35rem, 2.5vw, 1.8rem);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-heading);
+}
+
+.errorState p,
+.emptyState p {
+  margin: var(--space-2) 0 0;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+.errorState button,
+.emptyState button {
+  margin-top: var(--space-5);
+  padding-inline: var(--space-4);
+  border: 1px solid var(--color-primary);
+  color: #fff;
+  background: var(--color-primary);
+}
+
+.emptyState {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-5);
+}
+
+.emptyMark {
+  border: 1px solid rgba(45, 157, 135, 0.28);
+  color: var(--color-primary);
+  background: var(--color-accent-soft);
+  font-size: var(--font-size-xl);
+}
+
+.emptyState h2 {
+  margin-top: var(--space-2);
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@keyframes skeletonPulse {
+  from {
+    opacity: 0.48;
+  }
+
+  to {
+    opacity: 0.9;
+  }
+}
+
+@media (max-width: 67.5rem) {
+  .tableContainer,
+  .tableSkeleton {
+    display: none;
+  }
+
+  .patientCards,
+  .cardSkeletons {
+    margin-top: clamp(1.75rem, 4vw, 2.5rem);
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: max-content;
+    align-items: start;
+    gap: var(--space-4);
+  }
+
+  .patientCard,
+  .skeletonCard {
+    min-width: 0;
+    padding: clamp(1rem, 2.5vw, 1.5rem);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+  }
+
+  .patientCard {
+    height: auto;
+    min-height: 0;
+    align-self: start;
+    transition:
+      border-color var(--duration-fast) var(--ease-standard),
+      box-shadow var(--duration-fast) var(--ease-standard),
+      transform var(--duration-fast) var(--ease-standard);
+  }
+
+  .patientCard:hover {
+    border-color: rgba(40, 102, 93, 0.32);
+    box-shadow: var(--shadow-sm);
+    transform: translateY(-2px);
+  }
+
+  .cardHeader {
+    padding-bottom: var(--space-5);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .patientCard .avatar {
+    width: 3rem;
+    height: 3rem;
+    font-size: 0.8rem;
+  }
+
+  .identityCopy h2 {
+    font-size: var(--font-size-base);
+  }
+
+  .cardDetails {
+    margin: 0;
+    padding-block: var(--space-4);
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--space-5);
+    row-gap: 0;
+  }
+
+  .cardDetails > div {
+    min-width: 0;
+  }
+
+  .mobileDetail {
+    grid-column: 1 / -1;
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .cardDetails > div:nth-child(2),
+  .cardDetails > div:nth-child(3) {
+    padding-top: var(--space-3);
+  }
+
+  .cardDetails > div:nth-child(4) {
+    grid-column: 1 / -1;
+    margin-top: var(--space-3);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .cardDetails dt {
+    color: var(--color-text-muted);
+    font-size: 0.75rem;
+    font-weight: var(--font-weight-bold);
+    letter-spacing: 0.055em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+
+  .cardDetails dd {
+    margin: var(--space-2) 0 0;
+    color: var(--color-charcoal);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+  }
+
+  .patientCard .actionGroup {
+    min-height: 0;
+    padding-top: var(--space-4);
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-top: 1px solid var(--color-border);
+  }
+
+  .patientCard .actionGroup > button {
+    width: 100%;
+    min-height: 2.4rem;
+  }
+
+  .mobileActionsToggle {
+    grid-column: 1 / -1;
+    min-height: 2.4rem;
+    padding: var(--space-2) 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 0;
+    border-top: 1px solid var(--color-border);
+    border-radius: 0;
+    color: var(--color-text-muted);
+    background: transparent;
+  }
+
+  .mobileActionsToggle:hover {
+    color: var(--color-primary);
+    background: transparent;
+    transform: none;
+  }
+
+  .toggleChevron {
+    font-size: 1rem;
+    line-height: 1;
+    transform: translateY(-0.1rem);
+    transition: transform var(--duration-fast) var(--ease-standard);
+  }
+
+  .mobileActionsToggle[aria-expanded="true"] .toggleChevron {
+    transform: rotate(180deg) translateY(-0.1rem);
+  }
+
+  .secondaryActions {
+    grid-column: 1 / -1;
+    padding-top: var(--space-1);
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-2);
+  }
+
+  .secondaryActions[hidden] {
+    display: none;
+  }
+
+  .secondaryActions button {
+    width: 100%;
+    min-height: 2.25rem;
+    padding: 0.35rem 0.25rem;
+    border-color: transparent;
+    background: transparent;
+    font-size: 0.72rem;
+  }
+
+  .secondaryActions .secondaryAction:hover {
+    border-color: transparent;
+    background: var(--color-surface-subtle);
+  }
+
+  .secondaryActions .deleteAction:hover {
+    border-color: transparent;
+    background: rgba(180, 71, 71, 0.08);
+  }
+
+  .skeletonCard {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  .skeletonCardIdentity {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .skeletonCardDetails {
+    height: 5rem;
+  }
+
+  .skeletonCardActions {
+    height: 5.25rem;
+  }
+}
+
+@media (max-width: 47.99rem) {
+  .introduction {
+    align-items: flex-start;
+  }
+
+  .count {
+    min-width: auto;
+  }
+
+  .patientCards,
+  .cardSkeletons {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 30rem) {
+  .introduction {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  .introduction h2 {
+    font-size: clamp(1.9rem, 10vw, 2.6rem);
+  }
+
+  .introduction p {
+    margin-top: var(--space-4);
+  }
+
+  .count {
+    padding: var(--space-4) 0 0;
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2);
+    border-top: 1px solid var(--color-border);
+    border-left: 0;
+    text-align: left;
+  }
+
+  .count span {
+    margin-top: 0;
+  }
+
+  .pagination {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .pagination > div {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .pagination button {
+    min-width: 0;
+  }
+
+  .errorState,
+  .emptyState {
+    padding-left: var(--space-4);
+    gap: var(--space-3);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .patientTable tbody tr,
+  .patientCard,
+  .actionGroup button,
+  .pagination button,
+  .emptyState button,
+  .errorState button,
+  .skeletonAvatar,
+  .skeletonName,
+  .skeletonDetail,
+  .skeletonActions,
+  .skeletonCardDetails,
+  .skeletonCardActions {
+    animation: none;
+    transition: none;
+  }
+
+  .toggleChevron {
+    transition: none;
+  }
+
+  .patientCard:hover,
+  .actionGroup button:hover,
+  .pagination button:not(:disabled):hover,
+  .emptyState button:hover,
+  .errorState button:hover {
+    transform: none;
+  }
+}
