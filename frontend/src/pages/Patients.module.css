@@ -79,7 +79,7 @@
 
 .tableContainer {
   margin-top: clamp(2rem, 4vw, 3rem);
-  overflow: hidden;
+  overflow: visible;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   background: var(--color-surface);
@@ -109,27 +109,27 @@
 }
 
 .patientTable th:first-child {
-  width: 19%;
+  width: 24%;
 }
 
 .patientTable th:nth-child(2) {
-  width: 13%;
+  width: 15%;
 }
 
 .patientTable th:nth-child(3) {
-  width: 6%;
-}
-
-.patientTable th:nth-child(4) {
   width: 8%;
 }
 
+.patientTable th:nth-child(4) {
+  width: 10%;
+}
+
 .patientTable th:nth-child(5) {
-  width: 9%;
+  width: 12%;
 }
 
 .patientTable th:last-child {
-  width: 45%;
+  width: 31%;
 }
 
 .patientTable td {
@@ -202,14 +202,8 @@
   padding-block: var(--space-3) !important;
 }
 
-.actionGroup {
-  min-width: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-}
-
-.actionGroup button,
+.manageTrigger,
+.patientActionButton,
 .pagination button,
 .emptyState button,
 .errorState button {
@@ -228,56 +222,246 @@
     transform var(--duration-fast) var(--ease-standard);
 }
 
-.actionGroup button:hover,
+.manageTrigger:hover,
+.patientActionButton:hover,
 .pagination button:not(:disabled):hover,
 .emptyState button:hover,
 .errorState button:hover {
   transform: translateY(-1px);
 }
 
-.viewAction {
+.actionControl {
+  position: relative;
+  width: 10.5rem;
+  max-width: 100%;
+  min-width: 0;
+  height: 2.75rem;
+  isolation: isolate;
+  transition: width 300ms var(--ease-standard);
+}
+
+.actionControl[data-expanded="true"] {
+  width: 16.25rem;
+  z-index: 5;
+}
+
+.manageTrigger,
+.actionRail {
+  position: absolute;
+  inset: 0;
+}
+
+.manageTrigger {
+  width: 100%;
+  min-height: 2.75rem;
+  padding-inline: var(--space-4);
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
   border: 1px solid var(--color-primary);
+  border-radius: var(--radius-md);
   color: #fff;
   background: var(--color-primary);
+  box-shadow: 0 0.3rem 0.8rem rgba(31, 92, 83, 0.16);
+  opacity: 1;
+  transform: translateX(0);
+  visibility: visible;
+  transition:
+    color 260ms var(--ease-standard),
+    border-color 260ms var(--ease-standard),
+    background-color 260ms var(--ease-standard),
+    box-shadow 260ms var(--ease-standard),
+    opacity 220ms var(--ease-standard),
+    transform 280ms var(--ease-standard),
+    visibility 0s linear;
 }
 
-.viewAction:hover {
+.manageTrigger svg {
+  width: 1.05rem;
+  height: 1.05rem;
+  flex: 0 0 auto;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+  transition: transform 280ms var(--ease-standard);
+}
+
+.manageTrigger:hover {
   border-color: var(--color-primary-hover);
   background: var(--color-primary-hover);
-  box-shadow: var(--shadow-xs);
+  box-shadow: 0 0.45rem 1rem rgba(31, 92, 83, 0.22);
 }
 
-.visitAction {
-  border: 1px solid rgba(45, 157, 135, 0.34);
+.manageTrigger:hover svg {
+  transform: translateX(0.15rem);
+}
+
+.actionControl[data-expanded="true"] .manageTrigger {
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(-0.75rem) scale(0.97);
+  visibility: hidden;
+  transition-delay: 0s, 0s, 0s, 0s, 0s, 0s, 220ms;
+}
+
+.actionRail {
+  padding: 0.22rem;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.18rem;
+  border: 1px solid rgba(40, 102, 93, 0.25);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 0.5rem 1.25rem rgba(32, 64, 57, 0.14);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-0.7rem) scale(0.97);
+  visibility: hidden;
+  transition:
+    opacity 240ms var(--ease-standard),
+    transform 300ms var(--ease-standard),
+    visibility 0s linear 300ms;
+}
+
+.actionControl[data-expanded="true"] .actionRail {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(0) scale(1);
+  visibility: visible;
+  transition-delay: 45ms, 0s, 0s;
+}
+
+.patientActionButton {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  min-height: 2.28rem;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  border: 1px solid transparent;
+  border-radius: calc(var(--radius-md) - 0.2rem);
   color: var(--color-primary);
+  background: transparent;
+  opacity: 0;
+  transform: translateX(-0.35rem) scale(0.86);
+  transition:
+    color 220ms var(--ease-standard),
+    border-color 220ms var(--ease-standard),
+    background-color 220ms var(--ease-standard),
+    opacity 240ms var(--ease-standard),
+    transform 280ms var(--ease-standard);
+}
+
+.actionControl[data-expanded="true"] .patientActionButton {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+  transition-delay:
+    0s,
+    0s,
+    0s,
+    calc(70ms + var(--action-index) * 38ms),
+    calc(70ms + var(--action-index) * 38ms);
+}
+
+.patientActionButton:hover {
+  border-color: rgba(45, 157, 135, 0.22);
+  color: var(--color-primary-hover);
   background: var(--color-accent-soft);
 }
 
-.visitAction:hover {
-  border-color: var(--color-accent);
-  background: #cfe7e1;
-}
-
-.secondaryAction {
-  border: 1px solid var(--color-border);
-  color: var(--color-charcoal);
-  background: var(--color-surface);
-}
-
-.secondaryAction:hover {
-  border-color: var(--color-border-strong);
-  background: var(--color-surface-subtle);
-}
-
-.deleteAction {
-  border: 1px solid rgba(180, 71, 71, 0.28);
+.deletePatientAction {
   color: var(--color-danger);
-  background: rgba(180, 71, 71, 0.05);
 }
 
-.deleteAction:hover {
-  border-color: rgba(180, 71, 71, 0.55);
-  background: rgba(180, 71, 71, 0.1);
+.deletePatientAction:hover {
+  border-color: rgba(180, 71, 71, 0.25);
+  color: var(--color-danger);
+  background: rgba(180, 71, 71, 0.09);
+}
+
+.deletePatientAction .actionTooltip {
+  background: var(--color-danger);
+}
+
+.deletePatientAction .actionTooltip::after {
+  border-top-color: var(--color-danger);
+}
+
+.actionControl[data-expanded="true"] .patientActionButton:hover {
+  transform: translateY(-1px) scale(1.02);
+}
+
+.actionIcon,
+.actionIcon svg {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+.actionIcon {
+  display: grid;
+  place-items: center;
+  transition: transform 220ms var(--ease-standard);
+}
+
+.actionIcon svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.75;
+}
+
+.patientActionButton:hover .actionIcon,
+.patientActionButton:focus-visible .actionIcon {
+  transform: scale(1.08);
+}
+
+.actionTooltip {
+  position: absolute;
+  z-index: 8;
+  bottom: calc(100% + 0.55rem);
+  left: 50%;
+  width: max-content;
+  max-width: 9rem;
+  padding: 0.38rem 0.55rem;
+  border-radius: var(--radius-sm);
+  color: #fff;
+  background: var(--color-charcoal);
+  box-shadow: var(--shadow-sm);
+  font-size: 0.68rem;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.2;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 0.25rem);
+  visibility: hidden;
+  white-space: nowrap;
+  transition:
+    opacity 180ms var(--ease-standard),
+    transform 180ms var(--ease-standard),
+    visibility 0s linear 180ms;
+}
+
+.actionTooltip::after {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  border: 0.28rem solid transparent;
+  border-top-color: var(--color-charcoal);
+  content: "";
+  transform: translateX(-50%);
+}
+
+.patientActionButton:hover .actionTooltip,
+.patientActionButton:focus-visible .actionTooltip {
+  opacity: 1;
+  transform: translate(-50%, 0);
+  visibility: visible;
+  transition-delay: 90ms, 90ms, 0s;
 }
 
 .patientCards {
@@ -327,6 +511,198 @@
 .pagination button:disabled {
   cursor: not-allowed;
   opacity: 0.42;
+}
+
+.deletionFeedback:empty {
+  display: none;
+}
+
+.deletionFeedback p {
+  width: min(100%, 46rem);
+  margin: var(--space-5) 0 0;
+  padding: 0.8rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  border: 1px solid rgba(45, 157, 135, 0.25);
+  border-radius: var(--radius-md);
+  color: var(--color-primary);
+  background: var(--color-accent-soft);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.5;
+}
+
+.deletionFeedback p > span {
+  width: 1.4rem;
+  height: 1.4rem;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  color: #fff;
+  background: var(--color-primary);
+}
+
+.deletionFeedback svg {
+  width: 0.9rem;
+  height: 0.9rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}
+
+.modalBackdrop {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  padding: clamp(1rem, 4vw, 2rem);
+  display: grid;
+  place-items: center;
+  overflow-y: auto;
+  background: rgba(20, 38, 34, 0.48);
+  backdrop-filter: blur(0.3rem);
+  animation: modalBackdropEnter 220ms var(--ease-standard) both;
+}
+
+.deleteDialog {
+  width: min(100%, 31rem);
+  max-height: calc(100vh - 2rem);
+  padding: clamp(1.35rem, 4vw, 2rem);
+  overflow-y: auto;
+  border: 1px solid rgba(101, 126, 119, 0.25);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface);
+  box-shadow: 0 1.5rem 4rem rgba(20, 38, 34, 0.24);
+  animation: deleteDialogEnter 280ms var(--ease-standard) both;
+}
+
+.dialogIcon {
+  width: 3rem;
+  height: 3rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(180, 71, 71, 0.2);
+  border-radius: 50%;
+  color: var(--color-danger);
+  background: rgba(180, 71, 71, 0.08);
+}
+
+.dialogIcon svg {
+  width: 1.35rem;
+  height: 1.35rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.75;
+}
+
+.dialogCopy {
+  margin-top: var(--space-5);
+}
+
+.dialogCopy h2 {
+  margin: var(--space-2) 0 0;
+  color: var(--color-charcoal);
+  font-size: clamp(1.45rem, 4vw, 1.85rem);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-tight);
+  line-height: var(--line-height-heading);
+}
+
+.dialogCopy p {
+  margin: var(--space-3) 0 0;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  line-height: 1.7;
+}
+
+.dialogFeedback:empty {
+  display: none;
+}
+
+.dialogFeedback p {
+  margin: var(--space-4) 0 0;
+  padding: 0.75rem 0.9rem;
+  border-left: 3px solid var(--color-danger);
+  color: var(--color-danger);
+  background: rgba(180, 71, 71, 0.065);
+  font-size: var(--font-size-sm);
+  line-height: 1.5;
+}
+
+.dialogActions {
+  margin-top: var(--space-6);
+  padding-top: var(--space-5);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+  border-top: 1px solid var(--color-border);
+}
+
+.cancelDeleteButton,
+.confirmDeleteButton {
+  min-height: 3rem;
+  padding: 0.7rem 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.25;
+  transition:
+    color var(--duration-fast) var(--ease-standard),
+    border-color var(--duration-fast) var(--ease-standard),
+    background-color var(--duration-fast) var(--ease-standard),
+    box-shadow var(--duration-fast) var(--ease-standard),
+    transform var(--duration-fast) var(--ease-standard);
+}
+
+.cancelDeleteButton {
+  border: 1px solid var(--color-border);
+  color: var(--color-charcoal);
+  background: var(--color-surface);
+}
+
+.cancelDeleteButton:hover:not(:disabled) {
+  border-color: var(--color-border-strong);
+  background: var(--color-surface-subtle);
+  transform: translateY(-1px);
+}
+
+.confirmDeleteButton {
+  border: 1px solid var(--color-danger);
+  color: #fff;
+  background: var(--color-danger);
+  box-shadow: 0 0.3rem 0.8rem rgba(180, 71, 71, 0.16);
+}
+
+.confirmDeleteButton:hover:not(:disabled) {
+  background: #963c3c;
+  box-shadow: 0 0.45rem 1rem rgba(180, 71, 71, 0.22);
+  transform: translateY(-1px);
+}
+
+.cancelDeleteButton:disabled,
+.confirmDeleteButton:disabled {
+  cursor: wait;
+  opacity: 0.62;
+}
+
+.deleteSpinner {
+  width: 0.95rem;
+  height: 0.95rem;
+  flex: 0 0 auto;
+  border: 2px solid rgba(255, 255, 255, 0.45);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: deleteSpinner 720ms linear infinite;
 }
 
 .loadingState {
@@ -482,6 +858,34 @@
   }
 }
 
+@keyframes modalBackdropEnter {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes deleteDialogEnter {
+  from {
+    opacity: 0;
+    transform: translateY(0.6rem) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes deleteSpinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @media (max-width: 67.5rem) {
   .tableContainer,
   .tableSkeleton {
@@ -587,79 +991,79 @@
     overflow-wrap: anywhere;
   }
 
-  .patientCard .actionGroup {
-    min-height: 0;
-    padding-top: var(--space-4);
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    border-top: 1px solid var(--color-border);
-  }
-
-  .patientCard .actionGroup > button {
+  .patientCard .actionControl {
     width: 100%;
-    min-height: 2.4rem;
+    min-height: 0;
+    height: 3rem;
+    margin-top: var(--space-1);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-border);
+    box-sizing: content-box;
+    transition: height 300ms var(--ease-standard);
   }
 
-  .mobileActionsToggle {
-    grid-column: 1 / -1;
-    min-height: 2.4rem;
-    padding: var(--space-2) 0 0;
+  .patientCard .actionControl[data-expanded="true"] {
+    width: 100%;
+    height: 9.35rem;
+  }
+
+  .patientCard .manageTrigger,
+  .patientCard .actionRail {
+    top: var(--space-4);
+    bottom: 0;
+  }
+
+  .patientCard .manageTrigger {
+    min-height: 3rem;
+  }
+
+  .patientCard .actionRail {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.35rem;
+  }
+
+  .patientCard .patientActionButton {
+    min-height: 2.7rem;
+    padding: 0.4rem 0.55rem;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    border: 0;
-    border-top: 1px solid var(--color-border);
-    border-radius: 0;
-    color: var(--color-text-muted);
-    background: transparent;
+    justify-content: flex-start;
+    gap: 0.45rem;
+    border-color: rgba(101, 126, 119, 0.16);
+    background: #fbfcfb;
   }
 
-  .mobileActionsToggle:hover {
-    color: var(--color-primary);
-    background: transparent;
-    transform: none;
-  }
-
-  .toggleChevron {
-    font-size: 1rem;
-    line-height: 1;
-    transform: translateY(-0.1rem);
-    transition: transform var(--duration-fast) var(--ease-standard);
-  }
-
-  .mobileActionsToggle[aria-expanded="true"] .toggleChevron {
-    transform: rotate(180deg) translateY(-0.1rem);
-  }
-
-  .secondaryActions {
+  .patientCard .deletePatientAction {
     grid-column: 1 / -1;
-    padding-top: var(--space-1);
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: var(--space-2);
+    justify-content: center;
+    color: var(--color-danger);
+    background: rgba(180, 71, 71, 0.055);
   }
 
-  .secondaryActions[hidden] {
-    display: none;
+  .patientCard .actionIcon,
+  .patientCard .actionIcon svg {
+    width: 1.05rem;
+    height: 1.05rem;
+    flex: 0 0 auto;
   }
 
-  .secondaryActions button {
-    width: 100%;
-    min-height: 2.25rem;
-    padding: 0.35rem 0.25rem;
-    border-color: transparent;
+  .patientCard .actionTooltip {
+    position: static;
+    width: auto;
+    max-width: none;
+    padding: 0;
+    color: var(--color-charcoal);
     background: transparent;
+    box-shadow: none;
     font-size: 0.72rem;
+    opacity: 1;
+    transform: none;
+    visibility: visible;
+    white-space: normal;
   }
 
-  .secondaryActions .secondaryAction:hover {
-    border-color: transparent;
-    background: var(--color-surface-subtle);
-  }
-
-  .secondaryActions .deleteAction:hover {
-    border-color: transparent;
-    background: rgba(180, 71, 71, 0.08);
+  .patientCard .actionTooltip::after {
+    display: none;
   }
 
   .skeletonCard {
@@ -679,6 +1083,32 @@
 
   .skeletonCardActions {
     height: 5.25rem;
+  }
+}
+
+@media (max-width: 67.5rem) and (hover: none) {
+  .patientCard .actionControl[data-expanded="true"] {
+    height: 12.85rem;
+  }
+
+  .patientCard .actionControl[data-expanded="true"] .manageTrigger {
+    bottom: auto;
+    height: 3rem;
+    pointer-events: auto;
+    opacity: 1;
+    transform: none;
+    visibility: visible;
+    transition-delay: 0s;
+  }
+
+  .patientCard .actionControl[data-expanded="true"] .manageTrigger svg {
+    transform: rotate(90deg);
+  }
+
+  .patientCard .actionControl[data-expanded="true"] .actionRail {
+    top: calc(var(--space-4) + 3.5rem);
+    bottom: auto;
+    height: 9.35rem;
   }
 }
 
@@ -744,15 +1174,38 @@
     padding-left: var(--space-4);
     gap: var(--space-3);
   }
+
+  .modalBackdrop {
+    padding: var(--space-3);
+  }
+
+  .deleteDialog {
+    padding: var(--space-5);
+  }
+
+  .dialogActions {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .patientTable tbody tr,
   .patientCard,
-  .actionGroup button,
+  .actionControl,
+  .manageTrigger,
+  .manageTrigger svg,
+  .actionRail,
+  .patientActionButton,
+  .actionIcon,
+  .actionTooltip,
   .pagination button,
   .emptyState button,
   .errorState button,
+  .modalBackdrop,
+  .deleteDialog,
+  .cancelDeleteButton,
+  .confirmDeleteButton,
+  .deleteSpinner,
   .skeletonAvatar,
   .skeletonName,
   .skeletonDetail,
@@ -763,12 +1216,13 @@
     transition: none;
   }
 
-  .toggleChevron {
-    transition: none;
+  .deleteSpinner {
+    animation: none;
   }
 
   .patientCard:hover,
-  .actionGroup button:hover,
+  .manageTrigger:hover,
+  .patientActionButton:hover,
   .pagination button:not(:disabled):hover,
   .emptyState button:hover,
   .errorState button:hover {

@@ -1,5 +1,5 @@
 import { motion, useReducedMotion } from "motion/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import api from "../api/axios";
@@ -51,127 +51,219 @@ function formatGender(value) {
 }
 
 
+function ViewPatientIcon() {
+    return (
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <circle cx="12" cy="8" r="4" />
+            <path d="M4.8 20a7.2 7.2 0 0 1 14.4 0" />
+        </svg>
+    );
+}
+
+
+function UpdatePatientIcon() {
+    return (
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <circle cx="9" cy="8" r="3.5" />
+            <path d="M3.5 19a5.5 5.5 0 0 1 9.5-3.8" />
+            <path d="m14.5 17.5 4.8-4.8 2 2-4.8 4.8-2.7.7.7-2.7Z" />
+        </svg>
+    );
+}
+
+
+function AddVisitIcon() {
+    return (
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <rect x="3" y="5" width="18" height="16" rx="2" />
+            <path d="M16 3v4M8 3v4M3 10h18M12 14v4M10 16h4" />
+        </svg>
+    );
+}
+
+
+function ViewVisitsIcon() {
+    return (
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M9 5h6M9 3h6v4H9z" />
+            <path d="M8 5H6a2 2 0 0 0-2 2v13h16V7a2 2 0 0 0-2-2h-2" />
+            <path d="M8 12h8M8 16h8" />
+        </svg>
+    );
+}
+
+
+function DeletePatientIcon() {
+    return (
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M3 6h18M8 6V4h8v2M19 6l-1 15H6L5 6" />
+            <path d="M10 11v5M14 11v5" />
+        </svg>
+    );
+}
+
+
 function PatientActions({
     patient,
     navigate,
-    deletePatient,
-    compact = false,
+    variant,
     isExpanded = false,
+    onExpand,
+    onCollapse,
     onToggle,
+    onRequestDelete,
 }) {
     const patientName = getPatientName(patient);
-    const secondaryActionsId = `patient-secondary-actions-${patient.id}`;
+    const actionsId = `patient-actions-${variant}-${patient.id}`;
+    const triggerRef = useRef(null);
+    const firstActionRef = useRef(null);
+    const focusActionsAfterExpand = useRef(false);
+    const focusTriggerAfterCollapse = useRef(false);
 
-    const secondaryActions = (
-        <>
-            <button
-                type="button"
-                className={styles.secondaryAction}
-                onClick={() => {
-                    navigate(
-                        "/update-patient",
-                        {
-                            state: {
-                                patient: patient,
-                            },
-                        },
-                    );
-                }}
-            >
-                Update
-            </button>
+    useEffect(() => {
+        if (isExpanded && focusActionsAfterExpand.current) {
+            firstActionRef.current?.focus();
+            focusActionsAfterExpand.current = false;
+        }
 
-            <button
-                type="button"
-                className={styles.secondaryAction}
-                onClick={() => {
-                    navigate(
-                        "/visits",
-                        {
-                            state: {
-                                patient: patient,
-                            },
-                        },
-                    );
-                }}
-            >
-                View visits
-            </button>
+        if (!isExpanded && focusTriggerAfterCollapse.current) {
+            triggerRef.current?.focus();
+            focusTriggerAfterCollapse.current = false;
+        }
+    }, [isExpanded]);
 
-            <button
-                type="button"
-                className={styles.deleteAction}
-                onClick={() => deletePatient(patient.id)}
-            >
-                Delete
-            </button>
-        </>
-    );
+    const actions = [
+        {
+            name: "View patient",
+            icon: <ViewPatientIcon />,
+            onSelect: () => navigate(
+                "/view-patient",
+                { state: { patientId: patient.id } },
+            ),
+        },
+        {
+            name: "Update patient",
+            icon: <UpdatePatientIcon />,
+            onSelect: () => navigate(
+                "/update-patient",
+                { state: { patient: patient } },
+            ),
+        },
+        {
+            name: "Add visit",
+            icon: <AddVisitIcon />,
+            onSelect: () => navigate(
+                "/add-visit",
+                { state: { patient: patient } },
+            ),
+        },
+        {
+            name: "View visits",
+            icon: <ViewVisitsIcon />,
+            onSelect: () => navigate(
+                "/visits",
+                { state: { patient: patient } },
+            ),
+        },
+        {
+            name: "Delete patient",
+            icon: <DeletePatientIcon />,
+            isDanger: true,
+            onSelect: () => onRequestDelete(patient),
+        },
+    ];
+
+    const handleTriggerClick = (event) => {
+        const hasPreciseHover = window.matchMedia?.(
+            "(hover: hover) and (pointer: fine)",
+        ).matches;
+
+        if (hasPreciseHover && event.detail > 0) {
+            onExpand();
+            return;
+        }
+
+        focusActionsAfterExpand.current = !isExpanded;
+        onToggle();
+    };
+
+    const handleKeyDown = (event) => {
+        if (event.key === "Escape" && isExpanded) {
+            event.preventDefault();
+            focusTriggerAfterCollapse.current = true;
+            onCollapse();
+        }
+    };
 
     return (
         <div
-            className={styles.actionGroup}
+            className={styles.actionControl}
+            data-expanded={isExpanded}
+            data-patient-action-control
             role="group"
             aria-label={`Actions for ${patientName}`}
+            onPointerEnter={(event) => {
+                if (event.pointerType === "mouse") {
+                    onExpand();
+                }
+            }}
+            onPointerLeave={(event) => {
+                if (event.pointerType === "mouse") {
+                    onCollapse();
+                }
+            }}
+            onBlur={(event) => {
+                if (!event.currentTarget.contains(event.relatedTarget)) {
+                    onCollapse();
+                }
+            }}
+            onKeyDown={handleKeyDown}
         >
             <button
+                ref={triggerRef}
                 type="button"
-                className={styles.viewAction}
-                onClick={() => {
-                    navigate(
-                        "/view-patient",
-                        {
-                            state: {
-                                patientId: patient.id,
-                            },
-                        },
-                    );
-                }}
+                className={styles.manageTrigger}
+                aria-expanded={isExpanded}
+                aria-controls={actionsId}
+                data-manage-trigger
+                tabIndex={isExpanded ? -1 : 0}
+                onClick={handleTriggerClick}
             >
-                View patient
+                <span>Manage patient</span>
+                <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+                    <path d="m7.5 5 5 5-5 5" />
+                </svg>
             </button>
 
-            <button
-                type="button"
-                className={styles.visitAction}
-                onClick={() => {
-                    navigate(
-                        "/add-visit",
-                        {
-                            state: {
-                                patient: patient,
-                            },
-                        },
-                    );
-                }}
+            <div
+                id={actionsId}
+                className={styles.actionRail}
+                aria-hidden={!isExpanded}
             >
-                Add visit
-            </button>
-
-            {compact ? (
-                <>
+                {actions.map((action, index) => (
                     <button
+                        ref={index === 0 ? firstActionRef : undefined}
                         type="button"
-                        className={styles.mobileActionsToggle}
-                        aria-expanded={isExpanded}
-                        aria-controls={secondaryActionsId}
-                        onClick={onToggle}
+                        className={
+                            action.isDanger
+                                ? `${styles.patientActionButton} ${styles.deletePatientAction}`
+                                : styles.patientActionButton
+                        }
+                        aria-label={action.name}
+                        tabIndex={isExpanded ? 0 : -1}
+                        style={{ "--action-index": index }}
+                        onClick={action.onSelect}
+                        key={action.name}
                     >
-                        <span>{isExpanded ? "Less actions" : "More actions"}</span>
-                        <span className={styles.toggleChevron} aria-hidden="true">⌄</span>
+                        <span className={styles.actionIcon} aria-hidden="true">
+                            {action.icon}
+                        </span>
+                        <span className={styles.actionTooltip} aria-hidden="true">
+                            {action.name}
+                        </span>
                     </button>
-
-                    <div
-                        id={secondaryActionsId}
-                        className={styles.secondaryActions}
-                        hidden={!isExpanded}
-                    >
-                        {secondaryActions}
-                    </div>
-                </>
-            ) : (
-                secondaryActions
-            )}
+                ))}
+            </div>
         </div>
     );
 }
@@ -228,7 +320,16 @@ function Patients() {
     const [patientCount, setPatientCount] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState("");
-    const [expandedPatientId, setExpandedPatientId] = useState(null);
+    const [expandedActionId, setExpandedActionId] = useState(null);
+    const [patientPendingDeletion, setPatientPendingDeletion] = useState(null);
+    const [isDeleting, setIsDeleting] = useState(false);
+    const [deleteError, setDeleteError] = useState("");
+    const [deleteFeedback, setDeleteFeedback] = useState("");
+
+    const cancelDeleteButtonRef = useRef(null);
+    const deleteButtonRef = useRef(null);
+    const directoryTitleRef = useRef(null);
+    const isDeletingRef = useRef(false);
 
     const applyPatientResponse = (response) => {
         setPatients(response.data.results);
@@ -286,13 +387,120 @@ function Patients() {
         };
     }, []);
 
-    const deletePatient = async (id) => {
+    useEffect(() => {
+        isDeletingRef.current = isDeleting;
+    }, [isDeleting]);
+
+    useEffect(() => {
+        if (!patientPendingDeletion) {
+            return undefined;
+        }
+
+        const previouslyFocusedElement = document.activeElement;
+        const relatedActionControl = previouslyFocusedElement instanceof HTMLElement
+            ? previouslyFocusedElement.closest("[data-patient-action-control]")
+            : null;
+        const focusReturnElement = relatedActionControl?.querySelector(
+            "[data-manage-trigger]",
+        ) || previouslyFocusedElement;
+        const fallbackFocusElement = directoryTitleRef.current;
+        const previousBodyOverflow = document.body.style.overflow;
+
+        const handleDialogKeyDown = (event) => {
+            if (event.key === "Escape" && !isDeletingRef.current) {
+                event.preventDefault();
+                setPatientPendingDeletion(null);
+                setDeleteError("");
+                return;
+            }
+
+            if (event.key !== "Tab") {
+                return;
+            }
+
+            const dialogButtons = [
+                cancelDeleteButtonRef.current,
+                deleteButtonRef.current,
+            ].filter((button) => button && !button.disabled);
+
+            if (dialogButtons.length === 0) {
+                event.preventDefault();
+                return;
+            }
+
+            const firstButton = dialogButtons[0];
+            const lastButton = dialogButtons[dialogButtons.length - 1];
+
+            if (event.shiftKey && document.activeElement === firstButton) {
+                event.preventDefault();
+                lastButton.focus();
+            } else if (!event.shiftKey && document.activeElement === lastButton) {
+                event.preventDefault();
+                firstButton.focus();
+            }
+        };
+
+        document.body.style.overflow = "hidden";
+        document.addEventListener("keydown", handleDialogKeyDown);
+        cancelDeleteButtonRef.current?.focus();
+
+        return () => {
+            document.body.style.overflow = previousBodyOverflow;
+            document.removeEventListener("keydown", handleDialogKeyDown);
+
+            if (
+                focusReturnElement instanceof HTMLElement
+                && focusReturnElement.isConnected
+            ) {
+                focusReturnElement.focus();
+            } else {
+                fallbackFocusElement?.focus();
+            }
+        };
+    }, [patientPendingDeletion]);
+
+    const requestPatientDeletion = (patient) => {
+        setDeleteError("");
+        setDeleteFeedback("");
+        setPatientPendingDeletion(patient);
+    };
+
+    const closeDeleteDialog = () => {
+        if (isDeletingRef.current) {
+            return;
+        }
+
+        setPatientPendingDeletion(null);
+        setDeleteError("");
+    };
+
+    const deletePatient = async () => {
+        if (!patientPendingDeletion || isDeletingRef.current) {
+            return;
+        }
+
+        const patientName = getPatientName(patientPendingDeletion);
+
+        setIsDeleting(true);
+        setDeleteError("");
+
         try {
-            await api.delete(`/patients/${id}/`);
-            alert("Patient deleted");
-            loadPatients();
+            await api.delete(`/patients/${patientPendingDeletion.id}/`);
+            setExpandedActionId(null);
+            setPatientPendingDeletion(null);
+            setDeleteFeedback(`${patientName} was deleted successfully.`);
+            await loadPatients();
         } catch (error) {
             console.log(error);
+
+            const responseDetail = error.response?.data?.detail;
+            setDeleteError(
+                typeof responseDetail === "string"
+                    ? responseDetail
+                    : "The patient could not be deleted. Please try again.",
+            );
+        } finally {
+            setIsDeleting(false);
         }
     };
 
@@ -314,7 +522,13 @@ function Patients() {
             <header className={styles.introduction}>
                 <div>
                     <span className={styles.eyebrow}>Patient directory</span>
-                    <h2 id="patient-directory-title">Patient records</h2>
+                    <h2
+                        ref={directoryTitleRef}
+                        id="patient-directory-title"
+                        tabIndex={-1}
+                    >
+                        Patient records
+                    </h2>
                     <p>
                         Review essential patient details and continue care from one
                         clear, organized directory.
@@ -331,6 +545,23 @@ function Patients() {
                     </div>
                 )}
             </header>
+
+            <div
+                className={styles.deletionFeedback}
+                aria-live="polite"
+                aria-atomic="true"
+            >
+                {deleteFeedback && (
+                    <p role="status">
+                        <span aria-hidden="true">
+                            <svg viewBox="0 0 20 20" focusable="false">
+                                <path d="m5 10 3 3 7-7" />
+                            </svg>
+                        </span>
+                        {deleteFeedback}
+                    </p>
+                )}
+            </div>
 
             {isLoading && <LoadingDirectory />}
 
@@ -413,7 +644,28 @@ function Patients() {
                                             <PatientActions
                                                 patient={patient}
                                                 navigate={navigate}
-                                                deletePatient={deletePatient}
+                                                variant="table"
+                                                isExpanded={
+                                                    expandedActionId === `table-${patient.id}`
+                                                }
+                                                onExpand={() => {
+                                                    setExpandedActionId(`table-${patient.id}`);
+                                                }}
+                                                onCollapse={() => {
+                                                    setExpandedActionId((currentId) => (
+                                                        currentId === `table-${patient.id}`
+                                                            ? null
+                                                            : currentId
+                                                    ));
+                                                }}
+                                                onToggle={() => {
+                                                    setExpandedActionId((currentId) => (
+                                                        currentId === `table-${patient.id}`
+                                                            ? null
+                                                            : `table-${patient.id}`
+                                                    ));
+                                                }}
+                                                onRequestDelete={requestPatientDeletion}
                                             />
                                         </td>
                                     </motion.tr>
@@ -461,14 +713,28 @@ function Patients() {
                                 <PatientActions
                                     patient={patient}
                                     navigate={navigate}
-                                    deletePatient={deletePatient}
-                                    compact
-                                    isExpanded={expandedPatientId === patient.id}
-                                    onToggle={() => {
-                                        setExpandedPatientId((currentId) => (
-                                            currentId === patient.id ? null : patient.id
+                                    variant="card"
+                                    isExpanded={
+                                        expandedActionId === `card-${patient.id}`
+                                    }
+                                    onExpand={() => {
+                                        setExpandedActionId(`card-${patient.id}`);
+                                    }}
+                                    onCollapse={() => {
+                                        setExpandedActionId((currentId) => (
+                                            currentId === `card-${patient.id}`
+                                                ? null
+                                                : currentId
                                         ));
                                     }}
+                                    onToggle={() => {
+                                        setExpandedActionId((currentId) => (
+                                            currentId === `card-${patient.id}`
+                                                ? null
+                                                : `card-${patient.id}`
+                                        ));
+                                    }}
+                                    onRequestDelete={requestPatientDeletion}
                                 />
                             </motion.article>
                         ))}
@@ -503,6 +769,72 @@ function Patients() {
                         </div>
                     </nav>
                 </>
+            )}
+
+            {patientPendingDeletion && (
+                <div
+                    className={styles.modalBackdrop}
+                    onMouseDown={(event) => {
+                        if (event.target === event.currentTarget) {
+                            closeDeleteDialog();
+                        }
+                    }}
+                >
+                    <div
+                        className={styles.deleteDialog}
+                        role="dialog"
+                        aria-modal="true"
+                        aria-labelledby="delete-patient-title"
+                        aria-describedby="delete-patient-description"
+                        aria-busy={isDeleting}
+                    >
+                        <span className={styles.dialogIcon} aria-hidden="true">
+                            <DeletePatientIcon />
+                        </span>
+
+                        <div className={styles.dialogCopy}>
+                            <span className={styles.sectionKicker}>Confirm deletion</span>
+                            <h2 id="delete-patient-title">Delete patient?</h2>
+                            <p id="delete-patient-description">
+                                Are you sure you want to delete this patient?
+                                <br />
+                                This action cannot be undone.
+                            </p>
+                        </div>
+
+                        <div
+                            className={styles.dialogFeedback}
+                            aria-live="assertive"
+                            aria-atomic="true"
+                        >
+                            {deleteError && <p role="alert">{deleteError}</p>}
+                        </div>
+
+                        <div className={styles.dialogActions}>
+                            <button
+                                ref={cancelDeleteButtonRef}
+                                type="button"
+                                className={styles.cancelDeleteButton}
+                                disabled={isDeleting}
+                                onClick={closeDeleteDialog}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                ref={deleteButtonRef}
+                                type="button"
+                                className={styles.confirmDeleteButton}
+                                disabled={isDeleting}
+                                onClick={deletePatient}
+                            >
+                                {isDeleting && (
+                                    <span className={styles.deleteSpinner} aria-hidden="true" />
+                                )}
+                                <span>{isDeleting ? "Deleting patient…" : "Delete patient"}</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             )}
         </section>
     );
